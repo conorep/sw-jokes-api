@@ -1,6 +1,7 @@
 package com.example.swjokesapi.controller;
 
 import com.example.swjokesapi.model.Joke;
+import com.example.swjokesapi.model.Query;
 import com.example.swjokesapi.service.JokesService;
 import org.springframework.web.bind.annotation.*;
 
@@ -22,11 +23,23 @@ public class WebApi
         this.service = service;
     }
 
+
     @GetMapping("")
     public List<Joke> allJokes()
     {
         return service.allJokes();
     }
+
+    //how do we get inputs through a request
+    //******************************************
+
+    @GetMapping("query")
+    public List<Joke> filterJokes(@RequestBody Query query)
+    {
+        return service.searchJokes(query.getQueryValue());
+    }
+
+    //******************************************
 
     @PostMapping("")
     public Joke addJoke(@RequestBody Joke tempJoke)

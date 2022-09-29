@@ -40,6 +40,15 @@ public class JokesService
         return jokes;
     }
 
+    //queryValue could be any substring
+    public List<Joke> searchJokes(String queryValue)
+    {
+        return jokes.stream()
+                .filter(joke -> joke.getJokeText().toLowerCase()
+                .contains(queryValue.toLowerCase()))
+                .toList();
+    }
+
 
     //update
     public Joke updateJoke(UUID id, String newJokeText)
