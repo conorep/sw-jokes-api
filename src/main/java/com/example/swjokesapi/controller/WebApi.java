@@ -102,6 +102,8 @@ public class WebApi
 
         //delete the joke, return HttpStatus.OK
         service.deleteJoke(tempJoke.getId());
+
+        //could do HttpStatus.NO_CONTENT
         return new ResponseEntity<>(HttpStatus.OK);
     }
 }
