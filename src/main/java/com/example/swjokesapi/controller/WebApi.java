@@ -3,6 +3,8 @@ package com.example.swjokesapi.controller;
 import com.example.swjokesapi.model.Joke;
 import com.example.swjokesapi.model.Query;
 import com.example.swjokesapi.service.JokesService;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -25,37 +27,81 @@ public class WebApi
 
 
     @GetMapping("")
-    public List<Joke> allJokes()
+    public ResponseEntity<List<Joke>> allJokes()
     {
-        return service.allJokes();
+        //return the response using a constructor
+        return new ResponseEntity<>(service.allJokes(), HttpStatus.OK) ;
     }
 
     //how do we get inputs through a request
     //******************************************
 
     @GetMapping("query")
-    public List<Joke> filterJokes(@RequestBody Query query)
+    public ResponseEntity<Object> filterJokes(@RequestBody Query query)
     {
-        return service.searchJokes(query.getQueryValue());
+        //we won't allow this end-point to be used with an empty query
+        if(query.getQueryValue() == null  || query.getQueryValue().isEmpty())
+        {
+            //this is 400 level response (bad request - client error)
+            //the body I'm responding with could be any object
+            return new ResponseEntity<>("The query cannot be null or empty.", HttpStatus.BAD_REQUEST);
+        }
+
+        //an alternative using factory methods
+        return ResponseEntity.ok(service.searchJokes(query.getQueryValue()));
     }
 
     //******************************************
 
     @PostMapping("")
-    public Joke addJoke(@RequestBody Joke tempJoke)
+    public ResponseEntity<Object> addJoke(@RequestBody Joke tempJoke)
     {
-        return service.addJoke(tempJoke.getJokeText());
+        // no bad jokes (i.e. no empty joke). don't add those
+        if(tempJoke.getJokeText() == null  || tempJoke.getJokeText().isEmpty())
+        {
+            //this is 400 level response (bad request - client error)
+            //the body I'm responding with could be any object
+            return new ResponseEntity<>("The query cannot be null or empty.", HttpStatus.BAD_REQUEST);
+        }
+
+        return new ResponseEntity<>(service.addJoke(tempJoke.getJokeText()), HttpStatus.CREATED);
     }
 
     @PutMapping("")
-    public Joke editAJoke(@RequestBody Joke tempJoke)
+    public ResponseEntity<Object> editAJoke(@RequestBody Joke tempJoke)
     {
-        return service.updateJoke(tempJoke.getId(), tempJoke.getJokeText());
+        //can't edit if ID of joke is not found
+        if(!service.jokeExists(tempJoke.getId()))
+        {
+            //404 (not found)
+            return new ResponseEntity<>("Joke does not exist!", HttpStatus.NOT_FOUND);
+        }
+        //cant add an empty joke
+        else if(tempJoke.getJokeText() == null  || tempJoke.getJokeText().isEmpty())
+        {
+            return new ResponseEntity<>("The joke text cannot be null or empty.", HttpStatus.BAD_REQUEST);
+        }
+
+        return new ResponseEntity<>(service.updateJoke(tempJoke.getId(), tempJoke.getJokeText()), HttpStatus.OK);
     }
 
     @DeleteMapping("")
-    public void deleteJoke(@RequestBody Joke tempJoke)
+    public ResponseEntity<Object> deleteJoke(@RequestBody Joke tempJoke)
     {
+        //cant add an empty joke
+        if(tempJoke.getId() == null)
+    {
+        return new ResponseEntity<>("The joke ID cannot be null or empty.", HttpStatus.BAD_REQUEST);
+    }
+        //joke ID must exist
+        else if(!service.jokeExists(tempJoke.getId()))
+        {
+            //404 (not found)
+            return new ResponseEntity<>("Joke does not exist!", HttpStatus.NOT_FOUND);
+        }
+
+        //delete the joke, return HttpStatus.OK
         service.deleteJoke(tempJoke.getId());
+        return new ResponseEntity<>(HttpStatus.OK);
     }
 }

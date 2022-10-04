@@ -83,4 +83,11 @@ public class JokesService
                 .toList();
         //TODO: report a failure to find
     }
+
+    //exists...?
+    public boolean jokeExists(UUID id)
+    {
+        return jokes.stream()
+                .anyMatch(joke -> joke.getId().equals(id));
+    }
 }
