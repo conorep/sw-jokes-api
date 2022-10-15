@@ -4,15 +4,19 @@
     <meta charset="UTF-8">
     <title>Home</title>
     <link rel="stylesheet" href="css/styles.css">
-
 </head>
 <body>
     <h1>Congrats, you made it here.</h1>
     
-    <div id="jokes-list">
+    <form id="joke-submit-form">
+        <label for="joke-input">Enter a new joke: </label>
+        <input type="text" id="joke-input" name="joke-input"/>
+        <button id="joke-submit-btn" type="submit">Submit Joke</button>
+    </form>
     
-    </div>
-
+    <div id="jokes-list"></div>
+    
+    <script src="js/joke_input.js"></script>
     <script src="js/load_data.js"></script>
 </body>
 </html>

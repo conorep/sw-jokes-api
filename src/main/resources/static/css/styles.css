@@ -20,3 +20,44 @@ section {
 section h2 {
     font-size: 1.2em;
 }
+
+form#joke-submit-form {
+    text-align: center;
+    margin-bottom: 1rem;
+}
+
+label {
+    font-size: 1.5rem;
+    font-style: italic;
+}
+
+input {
+    width: 30%;
+    padding: 5px;
+    margin-left: 10px;
+    margin-right: 10px;
+    background-color: aliceblue;
+}
+
+button#joke-submit-btn {
+    border: none;
+    border-radius: 10px;
+    background-color: #69af69;
+    color: white;
+    font-size: 1.2rem;
+    font-weight: 400;
+    padding: 6px 15px;
+    cursor: pointer;
+    outline: none;
+    box-shadow: 0 7px #999;
+}
+
+button#joke-submit-btn:hover, button#joke-submit-btn:active {
+    background-color: #558d55;
+}
+
+button#joke-submit-btn:active {
+    box-shadow: 0 5px #8c8c8c;
+    transform: translateY(2px);
+}
+
