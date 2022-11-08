@@ -4,7 +4,11 @@ window.onload = function() {
 
     let uri = "http://localhost:8080/api/v1/joke";
     let params = {
-        method: "get"
+        method: "GET",
+        mode: "cors",
+        headers: {
+            "Content-Type": "application/json"
+        }
     }
 
     fetch(uri, params)

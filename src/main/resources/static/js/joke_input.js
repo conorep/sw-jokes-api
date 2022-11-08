@@ -16,7 +16,8 @@ function clickSubmitJoke(event)
     let url = "http://localhost:8080/api/v1/joke";
 
     let params = {
-        method: "post",
+        method: "POST",
+        mode: "cors",
         headers: {
             "Content-Type": "application/json"
         },

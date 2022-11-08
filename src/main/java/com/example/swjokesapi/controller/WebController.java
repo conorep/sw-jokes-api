@@ -2,6 +2,7 @@ package com.example.swjokesapi.controller;
 
 import com.example.swjokesapi.service.JokesService;
 import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 /**

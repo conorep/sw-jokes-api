@@ -16,6 +16,7 @@ import java.util.List;
 */
 @RestController
 @RequestMapping("api/v1/joke")
+@CrossOrigin(origins="*")
 public class WebApi
 {
     public JokesService service;
